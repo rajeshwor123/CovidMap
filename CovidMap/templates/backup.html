@@ -1,0 +1,51 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    {{ map|safe }}
+    <br>
+    {{ map2|safe }}
+    <br>
+    {{ map3|safe }}
+    <br>
+    {{ bar |safe}}
+    <br>
+    <table class="table table-borderless">
+        <thead class="border-bottom font-weight-bold">
+            <tr>
+                <td>Province</td>
+                <td>Infected</td>
+                <td>Death</td>
+                <td>Recovered</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patientList %}
+                <tr>
+                    <td>{{ patient.province }}</td>
+                    <td>{{ patient.infected }}</td>
+                    <td>{{ patient.death }}</td>
+                    <td>{{ patient.recovered }}</td>
+                    <td>
+                        <a href="{% url 'patientUpdate' patient.id %}" class="btn text-secondary px-0">
+                            <i class ="far fa-edit fa-lg"></i>
+                        </a>
+                        <form action="{% url 'patientDelete' patient.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">
+                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="patientAdd.html">
+         <button type="submit" class="btn btn-success">Add Cases</button>
+    </form>
+
+{% endblock %}
